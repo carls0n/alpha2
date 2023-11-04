@@ -22,7 +22,6 @@ echo "-t  number of threads to use"
 echo "-p  socks5 proxy address"
 echo "-w  use the wordlist instead. /path/to/list."
 echo "-d  directory enumeration mode. Use with -t and -w"
-echo "-x  test permutate function. -x followed by number of characters"
 }
 
 SECONDS=0
@@ -36,7 +35,6 @@ u) user="$OPTARG" ;;
 t) threads="$OPTARG" ;;
 c) characters="$OPTARG" ;;
 p) proxy="--socks5 $OPTARG" ;;
-x) permutate=1 ;;
 w) wordlist="$OPTARG" ;;
 d) direnum=1;;
 h) usage && exit ;;
@@ -92,7 +90,6 @@ else if ($1 =="403") { print "Exit with code 403"; exit}'} > .password
 
 get_args $@
 check_flags
-if [[ $permutate == 1 ]]; then permute $2 && exit;fi
 
 function wordlist {
 parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' $proxy $ip -u $user:{} :::: $wordlist |\
