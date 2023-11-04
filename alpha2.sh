@@ -48,11 +48,6 @@ type -P parallel 1>/dev/null
 [ "$?" -ne 0 ] && echo "Please install GNU parallel before using this script." && exit
 
 function check_flags {
-
-if [[ $permutate == 1 ]] && [[ ! $2 ]]
-then echo test && exit
-fi
-
 if [[ ! $ip ]]
 then
 echo please indicate the target IP address && exit
