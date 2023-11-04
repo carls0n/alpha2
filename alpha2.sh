@@ -14,7 +14,7 @@ charset=({a..z} {0..9})
 
 usage() {
 echo "alpha2 http parallel login hacker (Marc Carlson 2022-2023)"
-echo "Usage: alpha2 [pcautxwdh] [options]"
+echo "Usage: alpha2 [pcautwdh] [options]"
 echo "-c  number of characters to use for password permutation"
 echo "-a  IP address of remote target"
 echo "-u  username to use"
