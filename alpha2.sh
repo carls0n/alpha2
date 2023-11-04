@@ -28,7 +28,7 @@ SECONDS=0
 
 get_args() {
 [ $# -eq 0 ] && usage && exit
-while getopts "xp:a:u:t:c:hw:id" arg; do
+while getopts "p:a:u:t:c:hw:id" arg; do
 case $arg in
 a) ip="$OPTARG" ;;
 u) user="$OPTARG" ;;
