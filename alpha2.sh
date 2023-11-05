@@ -78,8 +78,10 @@ permute "$((${1} - 1 ))" "$2$char"
 done
 }
 
+
 function direnum {
-cat $wordlist | xargs -n 1 -P $threads -I {} curl -s -o /dev/null -w '%{http_code} {}\n' $proxy $ip/{} | grep -ve "404" -ve "000" -ve "403" && exit
+parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' $proxy $ip/{} :::: $wordlist |\
+awk '{if($1 =="401") {print $1 " " $2} else if ($1 == "000") {print "Exit with code 000"; exit}}' && exit
 }
 
 function bruteforce { 
@@ -90,6 +92,7 @@ else if ($1 =="403") { print "Exit with code 403"; exit}'} > .password
 
 get_args $@
 check_flags
+
 
 function wordlist {
 parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' $proxy $ip -u $user:{} :::: $wordlist |\
