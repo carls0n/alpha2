@@ -16,7 +16,7 @@ charset=({a..z} {0..9})
 
 usage() {
 echo "alpha2 parallel SSH/HTTP bruteforce tool (Marc Carlson 2023)"
-echo "usage: ./alpha2.sh [cautwh] [options]"
+echo "usage: ./alpha2.sh [cautwhT] [options]"
 echo "-c  number of characters to use for password permutation"
 echo "-a  IP address of remote target"
 echo "-u  username to use"
