@@ -22,7 +22,7 @@ echo "-a  IP address of remote target"
 echo "-u  username to use"
 echo "-t  number of threads to use"
 echo "-w  use the wordlist instead. /path/to/list"
-echo "-T  Tyoe of attack. SSH/HTTP or direnum"
+echo "-T  Type of attack. SSH/HTTP or direnum"
 }
 
 SECONDS=0
