@@ -1,12 +1,8 @@
 # alpha2.sh
-<h5>
-* Bash based parallel http login hacker.<br>
-* Includes directory enumeration mode<br>
+* Bash based parallel SSH/HTTP login hacker.<br>
+* Includes directory enumeration mode for HTTP<br>
 * Try all possible combinations of x number of alphanumeric characters<br>
 * Option to use a password file instead.<br>
 * Updates every five minutes with time elapsed.<br>
-* Support for SOCKS5 proxies.
-
-<br><hr>
-In a test of alpha2 using 16 threads on a 2.26GHz dual core processor and 4GB RAM, it took alpha2 13 hours and 10 minutes to find the password "abc123" using bruteforce.
-</h5>
+* Support for SOCKS5 proxies for HTTP attacks<br>
+* New! Now supports both SSH and HTTP bruteforce attacks.
