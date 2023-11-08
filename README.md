@@ -8,3 +8,4 @@
 * New! Now supports both SSH and HTTP bruteforce attacks.
 <hr>
 One of the security features of SSH is MaxStartups which sets limits on simultaneous connections. When MaxStartups limits are reached, SSH begins dropping connections, which will of course affect the results of the attack. In my sshd_config, the default is set at 10:30:100. So in order to conduct a successful attack, one need to limit the number of threads to 8.
+<hr>
