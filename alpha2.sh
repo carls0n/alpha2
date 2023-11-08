@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# getpass.sh
-# written by Marc Carlson November 5, 2023
-# bash parallel SSH bruteforcer. Tries all possible alphanumeric combinations based on the number of characters.
+# alpha2.sh
+# written by Marc Carlson November 8, 2023
+# bash parallel SSH/HTTP bruteforcer. Tries all possible alphanumeric combinations based on the number of characters.
 # also has an option to use a password file instead.
 # this is free software. free to use, free to redistribute. Do whatever you like with it.
 # if you want to add support for uppercase letters, add {A..Z} to the character set.
@@ -15,20 +15,21 @@ unset DISPLAY
 charset=({a..z} {0..9})
 
 usage() {
-echo "getpass parallel SSH bruteforce tool (Marc Carlson 2023)"
-echo "usage: ./getpass.sh [cautwh] [options]"
+echo "alpha2 parallel SSH/HTTP bruteforce tool (Marc Carlson 2023)"
+echo "usage: ./alpha2.sh [cautwh] [options]"
 echo "-c  number of characters to use for password permutation"
 echo "-a  IP address of remote target"
 echo "-u  username to use"
 echo "-t  number of threads to use"
-echo "-w  use the wordlist instead. /path/to/list."
+echo "-w  use the wordlist instead. /path/to/list"
+echo "-T  Tyoe of attack. SSH/HTTP or direnum"
 }
 
 SECONDS=0
 
 get_args() {
 [ $# -eq 0 ] && usage && exit
-while getopts ":ha:u:t:c:w:v:" arg; do
+while getopts ":ha:u:t:c:w:T:" arg; do
 case $arg in
 a) ip="$OPTARG" ;;
 u) user="$OPTARG" ;;
@@ -36,8 +37,7 @@ t) threads="$OPTARG" ;;
 c) characters="$OPTARG" ;;
 w) wordlist="$OPTARG" ;;
 h) usage && exit ;;
-v) type="$OPTARG" ;;
-#d) direnum=1;;
+T) type="$OPTARG" ;;
 esac
 done
 }
