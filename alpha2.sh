@@ -2,6 +2,7 @@
 
 # alpha2.sh
 # written by Marc Carlson November 8, 2023
+# my other repositories: https://github.com/carls0n/
 # bash parallel SSH/HTTP bruteforcer. Tries all possible alphanumeric combinations based on the number of characters.
 # also has an option to use a password file instead.
 # this is free software. free to use, free to redistribute. Do whatever you like with it.
