@@ -67,7 +67,7 @@ echo Please indicate either the -w flag and wordlist or the -c flag and number o
 fi
 if [[ -z $type ]]
 then
-echo Please indicate the type of attack \(ssh/http or direnum\) with the -v flag && exit
+echo Please indicate the type of attack \(ssh/http or direnum\) with the -T flag && exit
 fi
 if [[ $type == "direnum" ]] && [[ $characters ]]
 then
