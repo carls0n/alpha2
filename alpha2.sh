@@ -9,8 +9,6 @@
 # if you want to add support for uppercase letters, add {A..Z} to the character set.
 # note: 6 alphanumeric characters (no uppercase) generates 2.25 billion possibilities!
 
-# Please do not abuse this script. Use it on your own machines.
-
 unset DISPLAY
 
 charset=({a..z} {0..9})
@@ -50,7 +48,6 @@ type -P parallel 1>/dev/null
 type -P sshpass 1>/dev/null
 [ "$?" -ne 0 ] && echo "Please install sshpass before using this script." && exit
 
-
 function check_flags {
 if [[ ! $ip ]]
 then
@@ -78,8 +75,8 @@ echo password permutation not available for direnum. Please use -w wordlist inst
 fi
 }
 
-
-# Credit to pskocik for permutation function based on a post at stackexchange -> https://unix.stackexchange.com/users/23692/pskocik
+# credit to pskocik for permutation function based on a post at stackexchange
+# https://unix.stackexchange.com/users/23692/pskocik
 
 permute(){
 (( $1 == 0 )) && { echo "$2"; return; }
@@ -91,7 +88,6 @@ done
 
 get_args $@
 check_flags
-
 
 function update {
 while true
@@ -106,12 +102,12 @@ fi
 done
 }
 
+trap 'test' SIGTERM
+
 function direnum {
 parallel -k -j $threads -q curl -s -o /dev/null -w '%{http_code} {}\n' $proxy $ip/{} :::: $wordlist |\
-awk '{if($1 =="401") {print $1 " " $2} else if ($1 == "000") {print "Exit with code 000"; exit}}' && exit
+awk '{if($1 =="401") {print $1 " " $2} else if ($1 == "000") {print "Exit with code 000"; exit}}'
 }
-
-trap 'test' SIGTERM
 
 function ssh {
 if [[ $wordlist ]] && [[ -z $characters ]]
@@ -137,7 +133,6 @@ else if ($1 =="403") { print "Exit with code 403"; exit}'} > .password
 fi
 }
 
-
 function ftp {
 if [[ $wordlist ]] && [[ -z $characters ]]
 then
@@ -150,29 +145,26 @@ awk '{if($1 == "226") {print "Found password -> " $2; exit}}'  > .password
 fi
 }
 
-
 if [[ $type == "direnum" ]]
-then direnum
-fi
-if [[ $type == "ssh" ]]
+then
+direnum &
+pid=$!
+elif [[ $type == "ssh" ]]
 then
 ssh &
 pid=$!
-update &
-updatepid=$!
 elif [[ $type == "http" ]]
 then
 http &
 pid=$!
-update &
-updatepid=$!
 elif [[ $type == "ftp" ]]
 then
 ftp &
 pid=$!
+fi
+
 update &
 updatepid=$!
-fi
 
 if [[ -e .password ]]; then rm .password
 fi
