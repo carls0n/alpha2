@@ -17,9 +17,10 @@ charset=({a..z} {0..9})
 
 usage() {
 echo "alpha2 parallel SSH/HTTP bruteforce tool (Marc Carlson 2023)"
-echo "usage: ./alpha2.sh [cautwhT] [options]"
+echo "usage: ./alpha2.sh [cauptwhT] [options]"
 echo "-c  number of characters to use for password permutation"
 echo "-a  IP address of remote target"
+echo "-p  SOCKS5 proxy address"
 echo "-u  username to use"
 echo "-t  number of threads to use"
 echo "-w  use the wordlist instead. /path/to/list"
@@ -30,9 +31,10 @@ SECONDS=0
 
 get_args() {
 [ $# -eq 0 ] && usage && exit
-while getopts ":ha:u:t:c:w:T:" arg; do
+while getopts ":hp:a:u:t:c:w:T:" arg; do
 case $arg in
 a) ip="$OPTARG" ;;
+p) proxy="--socks5 $OPTARG";;
 u) user="$OPTARG" ;;
 t) threads="$OPTARG" ;;
 c) characters="$OPTARG" ;;
