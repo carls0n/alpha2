@@ -1,4 +1,4 @@
-# alpha2.sh
+# 
 * Bash based parallel SSH/HTTP/FTP login hacker.<br>
 * Includes directory enumeration mode for HTTP<br>
 * Try all possible combinations of x number of alphanumeric characters<br>
