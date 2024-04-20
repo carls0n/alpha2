@@ -183,8 +183,8 @@ kill -s SIGTERM 0
 pkill sleep
 elif ! kill -0 $pid 2>/dev/null
 then
-kill -s SIGTERM 0
 pkill sleep
+kill -s SIGTERM 0
 fi
 done
 
